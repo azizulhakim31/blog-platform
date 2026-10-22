@@ -1,32 +1,25 @@
-import { useState } from 'react'
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import Home from './pages/Home'
+import Footer from './components/common/Footer'
 import Navbar from './components/common/Navbar'
+import About from './pages/About'
+import Home from './pages/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <Navbar />
-    <Home />
-      <section id="center">
-
-        <div>
-          <h1>Get started</h1>
-
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-    </>
+    <BrowserRouter>
+      <div className="site-shell">
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   )
 }
 
