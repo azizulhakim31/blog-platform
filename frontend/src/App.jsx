@@ -1,6 +1,6 @@
 import { FaBookOpen, FaArrowRight, FaPenNib } from "react-icons/fa";
 
-function App() {
+const App = () => {
   return (
     <main className="min-h-screen bg-base-200 px-5 py-16">
       <div className="mx-auto max-w-4xl">
@@ -13,7 +13,7 @@ function App() {
               BlogSpace
             </span>
           </div>
-          
+
           <div className="flex-none">
             <span className="badge badge-primary badge-outline">
               Segment 1
