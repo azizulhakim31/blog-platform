@@ -29,7 +29,7 @@ const Navbar = () => {
             <span className="grid size-10 place-items-center rounded-xl bg-primary text-primary-content">
               <FiBookOpen size={21} />
             </span>
-            Blog<span className="text-primary">Space</span>
+            Relato
           </a>
         </div>
 
