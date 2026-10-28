@@ -15,16 +15,16 @@ const Newsletter = () => {
     }
 
     return (
-        <div className="rounded-3xl bg-neutral px-6 py-12 text-neutral-content sm:px-12 sm:py-16">
+        <div className="rounded-3xl border border-primary/20 bg-primary/5 px-6 py-12 text-base-content sm:px-12 sm:py-16">
             <div className="mx-auto max-w-2xl text-center">
-                <div className="mx-auto grid size-12 place-items-center rounded-2xl bg-neutral-content/10">
+                <div className="mx-auto grid size-12 place-items-center rounded-2xl bg-primary text-primary-content">
                     <FiMail size={23} />
                 </div>
                 <h2 className="mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                    Good stories, delivered.
+                    Thoughtful stories, delivered to your inbox.
                 </h2>
-                <p className="mx-auto mt-4 max-w-lg leading-7 text-neutral-content/70">
-                    Get thoughtful articles, fresh ideas and inspiring reads delivered straight to your inbox.
+                <p className="mx-auto mt-4 max-w-lg leading-7 text-base-content/70">
+                    Subscribe for thoughtful articles, fresh ideas, and inspiring reads. We would be pleased to share them with you.
                 </p>
 
                 <form
@@ -55,12 +55,12 @@ const Newsletter = () => {
 
                 {subscribed && (
                     <p role="status" className="mt-4 text-sm text-success">
-                        Thanks for your interest! Backend subscription is not connected yet.
+                        Thank you for your interest! Newsletter subscriptions are not available just yet.
                     </p>
                 )}
 
-                <p className="mt-4 text-xs text-neutral-content/60">
-                    No spam. Just good reads.
+                <p className="mt-4 text-xs text-base-content/60">
+                    Occasional emails, with no spam. Unsubscribe at any time.
                 </p>
             </div>
         </div>

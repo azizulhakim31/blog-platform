@@ -8,6 +8,7 @@ import CategoryFilter from "../components/blog/CategoryFilter";
 import BlogCard from "../components/blog/BlogCard";
 
 import { blogs, categories } from "../data/blogs";
+import Newsletter from "../components/common/Newsletter";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,9 +56,13 @@ const Home = () => {
               </div>
 
               <h1 className="mt-7 text-4xl font-black leading-tight tracking-tight sm:text-6xl lg:text-7xl">
-                Ideas become stories .
-                <span className="block mt-2 text-primary">Stories inspire change .</span>
+                Ideas become stories.
+                <span className="block mt-2 text-primary">Stories inspire change.</span>
               </h1>
+
+              <p className="mx-auto mt-5 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-5 py-2 text-sm font-medium italic tracking-wide text-primary sm:text-base">
+                Every story deserves a place
+              </p>
 
               <p className="mx-auto mt-6 max-w-2xl leading-7 text-base-content/70 sm:text-lg sm:leading-8">
                 Discover fresh perspectives, explore ideas that matter and share your own stories with a community that loves to learn.
@@ -186,6 +191,14 @@ const Home = () => {
               </div>
             )}
           </div>
+        </section>
+
+        {/* Newsletter */}
+        <section
+          id="newsletter"
+          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20"
+        >
+          <Newsletter />
         </section>
 
       </main>
