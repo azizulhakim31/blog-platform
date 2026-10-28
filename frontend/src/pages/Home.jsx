@@ -1,16 +1,36 @@
 import { FiArrowDown, FiSearch, FiTrendingUp } from "react-icons/fi";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
 import FeaturedPost from "../components/blog/FeaturedPost";
+import CategoryFilter from "../components/blog/CategoryFilter";
+import BlogCard from "../components/blog/BlogCard";
 
-import { blogs, categories } from "../data/blogs"
+import { blogs, categories } from "../data/blogs";
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
 
   const featuredBlog = blogs.find((blog) => blog.featured)
+
+  const filteredBlogs = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return blogs.filter((blog) => {
+      const matchesCategory =
+        activeCategory === "All" || blog.category === activeCategory;
+
+      const matchesSearch =
+        !query ||
+        [blog.title, blog.excerpt, blog.author, blog.category].some(
+          (value) => value.toLowerCase().includes(query)
+        );
+
+      return matchesCategory && matchesSearch && !blog.featured;
+    });
+  }, [activeCategory, searchQuery]);
 
   return (
     <div id="home" className="min-h-screen bg-base-100 text-base-content">
@@ -104,6 +124,69 @@ const Home = () => {
             <FeaturedPost blog={featuredBlog} />
           </section>
         )}
+
+        {/* Latest articles */}
+        <section
+          id="blogs"
+          className="border-y border-base-300 bg-base-200/50"
+        >
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-widest text-primary">
+                  The reading list
+                </p>
+                <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                  Latest stories
+                </h2>
+                <p className="mt-3 max-w-xl text-base-content/65">
+                  Fresh ideas and useful perspectives from our writers.
+                </p>
+              </div>
+
+              <span className="badge badge-primary badge-outline">
+                {filteredBlogs.length}{" "}
+                {filteredBlogs.length === 1 ? "article" : "articles"}
+              </span>
+            </div>
+
+            <div className="mt-8">
+              <CategoryFilter
+                categories={categories}
+                activeCategory={activeCategory}
+                onChange={setActiveCategory}
+              />
+            </div>
+
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredBlogs.map((blog) => (
+                <BlogCard key={blog.id} blog={blog} />
+              ))}
+            </div>
+
+            {filteredBlogs.length === 0 && (
+              <div className="mt-8 rounded-2xl border border-dashed border-base-300 bg-base-100 px-6 py-16 text-center">
+                <FiSearch className="mx-auto text-3xl text-base-content/40" />
+                <h3 className="mt-4 text-xl font-bold">
+                  No stories found
+                </h3>
+                <p className="mt-2 text-base-content/65">
+                  Try another keyword or choose a different category.
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm mt-5"
+                  onClick={() => {
+                    setSearchQuery("")
+                    setActiveCategory("All")
+                  }}
+                >
+                  Clear filters
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
 
       </main>
 

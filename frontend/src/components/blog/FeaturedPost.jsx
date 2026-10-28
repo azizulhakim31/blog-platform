@@ -43,7 +43,10 @@ const FeaturedPost = ({ blog }) => {
                     </span>
                 </div>
 
-                <a href={`#article-${blog.slug}`}>
+                <a
+                    href={`#article-${blog.slug}`}
+                    className="btn btn-primary mt-8 w-fit"
+                >
                     Read featured story <FiArrowUpRight size={18} />
                 </a>
             </div>
