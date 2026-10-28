@@ -1,5 +1,5 @@
+
 @import "tailwindcss";
-@config "../tailwind.config.js";
 @plugin "daisyui";
 
 :root {
@@ -10,8 +10,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
