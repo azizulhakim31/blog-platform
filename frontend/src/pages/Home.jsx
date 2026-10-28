@@ -1,11 +1,17 @@
-import Navbar from "../components/common/Navbar";
-import Footer from "../components/common/Footer";
 import { FiArrowDown, FiSearch, FiTrendingUp } from "react-icons/fi";
 import { useState } from "react";
 
+import Navbar from "../components/common/Navbar";
+import Footer from "../components/common/Footer";
+import FeaturedPost from "../components/blog/FeaturedPost";
+
+import { blogs, categories } from "../data/blogs"
+
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("")
-  
+
+  const featuredBlog = blogs.find((blog) => blog.featured)
+
   return (
     <div id="home" className="min-h-screen bg-base-100 text-base-content">
       <Navbar />
@@ -77,6 +83,28 @@ const Home = () => {
             </div>
           </div>
         </section>
+
+        {/* Featured article */}
+        {featuredBlog && (
+          <section
+            id="featured"
+            className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20"
+          >
+            <div className="mb-7 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-widest text-primary">
+                  Editor's pick
+                </p>
+                <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                  The story to start with
+                </h2>
+              </div>
+            </div>
+
+            <FeaturedPost blog={featuredBlog} />
+          </section>
+        )}
+
       </main>
 
       <Footer />
