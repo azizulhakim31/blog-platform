@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { blogs } from "../data/blogs";
 import { useState } from "react";
+import { FiArrowLeft, FiClock } from "react-icons/fi";
+
 import Navbar from "../components/common/Navbar";
-import { FiArrowLeft } from "react-icons/fi";
 import Footer from "../components/common/Footer";
+
+import { blogs } from "../data/blogs";
 
 const BlogDetails = () => {
     const { slug } = useParams();
@@ -61,8 +63,55 @@ const BlogDetails = () => {
     };
 
     return (
-        <div>
+        <div className="min-h-screen bg-base-100 text-base-content">
+            <Navbar />
 
+            <main>
+                <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
+                    <Link
+                        to="/"
+                        className="btn btn-ghost btn-sm gap-2"
+                    >
+                        <FiArrowLeft />Back to stories
+                    </Link>
+                </div>
+
+                {/* Article heading */}
+                <header className="mx-auto max-w-4xl px-4 pb-10 pt-8 text-center sm:px-6 lg:px-8 lg:pt-12">
+                    <span className="badge badge-primary badge-outline px-4 py-3">
+                        {blog.category}
+                    </span>
+                    <h1 className="mt-6 text-3xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                        {blog.title}
+                    </h1>
+
+                    <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-base-content/70">
+                        {blog.excerpt}
+                    </p>
+
+                    <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                        <img
+                            src={blog.avatar}
+                            alt={blog.author}
+                            className="size-12 rounded-full object-cover"
+                        />
+
+                        <div className="text-left">
+                            <p className="font-semibold">
+                                {blog.author}
+                            </p>
+                            <p className="text-sm text-base-content/60">
+                                {blog.date}
+                            </p>
+                        </div>
+
+                        <span className="hidden h-8 w-px bg-base-300 sm:block" />
+                        <span className="flex items-center gap-2 text-sm text-base-content/65">
+                            <FiClock />{blog.readTime}
+                        </span>
+                    </div>
+                </header>
+            </main>
         </div>
     );
 };
