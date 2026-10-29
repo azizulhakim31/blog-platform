@@ -111,6 +111,15 @@ const BlogDetails = () => {
                         </span>
                     </div>
                 </header>
+
+                {/* Cover image */}
+                <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                    <img
+                        src={blog.cover}
+                        alt={blog.title}
+                        className="max-h-140 w-full rounded-3xl object-cover"
+                    />
+                </div>
             </main>
         </div>
     );
