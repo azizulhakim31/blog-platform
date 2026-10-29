@@ -9,6 +9,7 @@ export const categories = [
 ];
 
 export const blogs = [
+
     {
         id: "1",
         slug: "future-of-artificial-intelligence",
@@ -23,7 +24,31 @@ export const blogs = [
         date: "Oct 18, 2026",
         readTime: "8 min read",
         featured: true,
+        content: [
+            {
+                heading: "A new era of technology",
+                paragraphs: [
+                    "Artificial intelligence is changing how people work, learn, and solve problems. Tools that once seemed experimental are becoming part of everyday workflows.",
+                    "From helping developers understand code to assisting writers with research, AI can reduce repetitive work and create more time for thoughtful decisions."
+                ]
+            },
+            {
+                heading: "Working smarter with AI",
+                paragraphs: [
+                    "AI tools can help organize information, summarize documents, explore ideas, and automate routine tasks. Their value depends on how thoughtfully people use them.",
+                    "Human judgment remains essential. Generated information can be inaccurate, incomplete, or outdated, so important results should always be checked."
+                ]
+            },
+            {
+                heading: "What comes next?",
+                paragraphs: [
+                    "The most useful approach is to keep learning, experiment responsibly, and focus on problems where these tools offer genuine value.",
+                    "AI is not just about doing things faster. Used well, it can help people spend more time on creativity, collaboration, and meaningful work."
+                ]
+            }
+        ]
     },
+
     {
         id: "2",
         slug: "designing-for-clarity",
