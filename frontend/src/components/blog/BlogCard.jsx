@@ -1,10 +1,10 @@
 import { FiArrowUpRight, FiClock } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
     return (
         <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <a
-                href={`#article-${blog.slug}`}
+            <Link to={`/blogs/${blog.slug}`}
                 className="relative block aspect-16/10 overflow-hidden bg-base-200"
                 aria-label={`Read ${blog.title}`}
             >
@@ -17,7 +17,7 @@ const BlogCard = ({ blog }) => {
                 <span className="absolute left-4 top-4 badge border-0 bg-base-100/95 px-3 py-3 font-medium">
                     {blog.category}
                 </span>
-            </a>
+            </Link>
 
             <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-center gap-2 text-xs text-base-content/60">
@@ -28,11 +28,10 @@ const BlogCard = ({ blog }) => {
                 </div>
 
                 <h3 className="mt-3 text-xl font-bold leading-snug tracking-tight">
-                    <a
-                        href={`#article-${blog.slug}`}
+                    <Link to={`/blogs/${blog.slug}`}
                         className="transition-colors hover:text-primary">
                         {blog.title}
-                    </a>
+                    </Link>
                 </h3>
 
                 <p className="mt-3 flex-1 text-sm leading-6 text-base-content/70">
@@ -51,13 +50,12 @@ const BlogCard = ({ blog }) => {
                         </span>
                     </div>
 
-                    <a
-                        href={`#article-${blog.slug}`}
+                    <Link to={`/blogs/${blog.slug}`}
                         className="btn btn-ghost btn-circle btn-sm"
                         aria-label={`Read ${blog.title}`}
                     >
                         <FiArrowUpRight size={18} />
-                    </a>
+                    </Link>
                 </div>
 
             </div>

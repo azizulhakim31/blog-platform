@@ -1,4 +1,5 @@
 import { FiArrowUpRight, FiClock } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const FeaturedPost = ({ blog }) => {
     if (!blog) return null;
@@ -43,12 +44,11 @@ const FeaturedPost = ({ blog }) => {
                     </span>
                 </div>
 
-                <a
-                    href={`#article-${blog.slug}`}
+                <Link to={`/blogs/${blog.slug}`}
                     className="btn btn-primary mt-8 w-fit"
                 >
                     Read featured story <FiArrowUpRight size={18} />
-                </a>
+                </Link>
             </div>
         </article>
     );

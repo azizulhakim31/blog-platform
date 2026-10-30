@@ -139,7 +139,7 @@ const BlogDetails = () => {
                                 type="button"
                                 onClick={() => setBookmarked((value) => !value)}
                                 aria-pressed={bookmarked}
-                                className={`btn btn-sm ${liked ? "btn-secondary" : "btn-outline"}`}
+                                className={`btn btn-sm ${bookmarked ? "btn-secondary" : "btn-outline"}`}
                             >
                                 <FiBookmark /> {bookmarked ? "Saved" : "Bookmark"}
                             </button>
