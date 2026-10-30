@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { FiArrowLeft, FiClock } from "react-icons/fi";
+import { FiArrowLeft, FiBookmark, FiClock, FiHeart, FiMessageCircle, FiShare2 } from "react-icons/fi";
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
@@ -119,6 +119,105 @@ const BlogDetails = () => {
                         alt={blog.title}
                         className="max-h-140 w-full rounded-3xl object-cover"
                     />
+                </div>
+
+                {/* Article content & sidebar */}
+                <div className="mx-auto grid max-w-7xl gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,1fr)_260px] lg:px-8 lg:py-16">
+                    <article className="min-w-0">
+                        <div className="mb-8 flex flex-wrap itms-center gap-3 border-b border-base-300 pb-6">
+                            <button
+                                type="button"
+                                onClick={() => setLiked((value) => !value)}
+                                aria-pressed={liked}
+                                className={`btn btn-sm ${liked ? "btn-primary" : "btn-outline"}`}
+                            >
+                                <FiHeart /> {liked ? "Liked" : "Like"}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setBookmarked((value) => !value)}
+                                aria-pressed={bookmarked}
+                                className={`btn btn-sm ${liked ? "btn-secondary" : "btn-outline"}`}
+                            >
+                                <FiBookmark /> {bookmarked ? "Saved" : "Bookmark"}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={handleShare}
+                                className="btn btn-ghost btn-sm"
+                            >
+                                <FiShare2 /> Share
+                            </button>
+                        </div>
+
+                        <div className="space-y-10">
+                            {(blog.content || []).map((section, index) => (
+                                <section key={`${section.heading}-${index}`}>
+                                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                                        {section.heading}
+                                    </h2>
+
+                                    <div className="mt-4 space-y-5 text-base leading-8 text-base-content/80 sm:text-lg sm:leading-9">
+                                        {section.paragraphs.map((paragraph, paragraphIndex) => (
+                                            <p key={paragraphIndex}>
+                                                {paragraph}
+                                            </p>
+                                        ))}
+                                    </div>
+                                </section>
+                            ))}
+
+                            {(!blog.content || blog.content.length === 0 && (
+                                <p>
+                                    The full article content will be available soon.
+                                </p>
+                            ))}
+                        </div>
+
+                        <div className="mt-12 flex flex-wrap gap-2 border-t border-base-300 pt-6">
+                            <span className="mr-2 font-semibold">
+                                Category:
+                            </span>
+                            <span className="badge badge-outline">
+                                {blog.category}
+                            </span>
+                        </div>
+
+                        <div className="mt-10 rounded-2xl bg-base-200 p-6 sm:p-8">
+                            <div className="flex items-center gap-4">
+                                <img
+                                    src={blog.avatar}
+                                    alt={blog.author}
+                                    className="size-16 rounded-full object-cover"
+                                />
+                                <div>
+                                    <p className="text-sm text-base-content/60">
+                                        Written by
+                                    </p>
+                                    <h3 className="text-xl font-bold">
+                                        {blog.author}
+                                    </h3>
+                                    <p className="mt-1 text-sm text-base-content/70">
+                                        Sharing ideas, experiences, and perspectives.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section id="comments" className="mt-14">
+                            <h2 className="flex items-center gap-3 text-2xl font-bold">
+                                <FiMessageCircle /> Join the conversation
+                            </h2>
+                            <p className="mt-3 text-base-content/70">
+                                Have a thought about this article? Share it with other readers.
+                            </p>
+                            <p className="mt-4 text-sm text-base-content/60">
+                                Comments will be added soon.
+                            </p>
+                        </section>
+                    </article>
                 </div>
             </main>
         </div>
