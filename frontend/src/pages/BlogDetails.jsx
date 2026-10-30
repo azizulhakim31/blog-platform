@@ -218,6 +218,47 @@ const BlogDetails = () => {
                             </p>
                         </section>
                     </article>
+
+                    {/* Sidebar */}
+                    <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+                        <div className="rounded-2xl border border-base-300 p-5">
+                            <h2 className="text-lg font-bold">
+                                About this story
+                            </h2>
+
+                            <div className="mt-5 space-y-4 text-sm">
+                                <div className="flex items-center justify-between gap-3">
+                                    <span className="text-base-content/60">Category</span>
+                                    <span className="font-medium">{blog.category}</span>
+                                </div>
+
+                                <div className="flex items-center justify-between gap-3">
+                                    <span className="text-base-content/60">Reading time</span>
+                                    <span className="font-medium">{blog.readTime}</span>
+                                </div>
+
+                                <div className="flex items-center justify-between gap-3">
+                                    <span className="text-base-content/60">Published</span>
+                                    <span className="font-medium">{blog.date}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="rounded-2xl bg-primary p-6 text-primary-content">
+                            <h2 className="text-xl font-bold">
+                                Enjoyed this story?
+                            </h2>
+                            <p className="mt-3 text-sm leading-6 opacity-85">
+                                Explore more articles and discover a new perspective.
+                            </p>
+                            <Link
+                                to="/"
+                                className="btn btn-sm mt-5 border-0 bg-primary-content text-primary hover:bg-primary-content/90"
+                            >
+                                Explore stories
+                            </Link>
+                        </div>
+                    </aside>
                 </div>
             </main>
         </div>
