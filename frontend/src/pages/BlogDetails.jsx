@@ -4,6 +4,7 @@ import { FiArrowLeft, FiBookmark, FiClock, FiHeart, FiMessageCircle, FiShare2 } 
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import BlogCard from "../components/blog/BlogCard";
 
 import { blogs } from "../data/blogs";
 
@@ -260,7 +261,26 @@ const BlogDetails = () => {
                         </div>
                     </aside>
                 </div>
+
+                {/* Related articles */}
+                {relatedBlogs.length > 0 && (
+                    <section className="border-t border-base-300 bg-base-200/50">
+                        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+                            <h2 className="text-3xl font-extrabold tracking-tight">
+                                More in {blog.category}
+                            </h2>
+
+                            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                {relatedBlogs.map((relatedBlog) => (
+                                    <BlogCard key={relatedBlog.id} blog={relatedBlog} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
             </main>
+
+            <Footer />
         </div>
     );
 };
