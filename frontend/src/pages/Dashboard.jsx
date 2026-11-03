@@ -1,42 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import {
-    FiBookOpen,
-    FiLogOut,
-    FiPenTool,
-    FiUser,
-    FiBookmark,
-} from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { FiBookOpen, FiPenTool, FiUser, FiBookmark } from "react-icons/fi";
 
 import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/common/Navbar";
 
 const Dashboard = () => {
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        logout();
-        navigate("/");
-    };
+    const { user } = useAuth();
 
     return (
         <div className="min-h-screen bg-base-200">
-            <header className="border-b border-base-300 bg-base-100">
-                <nav className="navbar mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <Link to="/" className="flex flex-1 items-center gap-2 text-xl font-extrabold">
-                        <span className="grid size-10 place-items-center rounded-xl bg-primary text-primary-content">
-                            <FiBookOpen size={21} />
-                        </span>
-                        Blog<span className="text-primary">Space</span>
-                    </Link>
-
-                    <button
-                        onClick={handleLogout}
-                        className="btn btn-outline btn-sm"
-                    >
-                        <FiLogOut /> Logout
-                    </button>
-                </nav>
-            </header>
+            <Navbar />
 
             <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
                 <div className="rounded-3xl bg-base-100 p-6 shadow-sm sm:p-10">
