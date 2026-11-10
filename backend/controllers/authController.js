@@ -155,4 +155,18 @@ const loginUser = async (req, res, next) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+const getCurrentUser = async (req, res) => {
+    res.status(200).json({
+        success: true,
+        user: {
+            id: req.user._id,
+            name: req.user.name,
+            username: req.user.username,
+            email: req.user.email,
+            avatar: req.user.avatar,
+            bio: req.user.bio,
+        },
+    });
+};
+
+module.exports = { registerUser, loginUser, getCurrentUser };
