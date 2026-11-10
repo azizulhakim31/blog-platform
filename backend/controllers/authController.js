@@ -19,3 +19,87 @@ const createUsername = async (name) => {
 
     return username;
 };
+
+const registerUser = async (req, res, next) => {
+    try {
+        const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide name, email and password"
+            });
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide a valid email address"
+            });
+        }
+
+        if (name.trim().length < 2) {
+            return res.status(400).json({
+                success: false,
+                message: "Name must contain at least 2 characters"
+            });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 8 characters"
+            });
+        }
+
+        const existingUser = await User.findOne({
+            email: email.toLowerCase().trim()
+        });
+
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "An account with this email already exists"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        const username = await createUsername(name);
+
+        const user = await User.create({
+            name: name.trim(),
+            username,
+            email: email.toLowerCase().trim(),
+            password: hashedPassword
+        });
+
+        const token = generateToken(user._id);
+
+        res.status(201).json({
+            success: true,
+            message: "Account created successfully",
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar,
+                bio: user.bio
+            }
+        });
+    }
+    catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({
+                success: false,
+                message: "Email or username already exists"
+            });
+        }
+
+        next(error);
+    }
+};
+
+module.exports = { registerUser };
