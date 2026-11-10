@@ -1,41 +1,79 @@
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
+import api from "../services/api";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const register = ({ name, email, password }) => {
-    const newUser = {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data } = await api.get("/auth/me");
+        setUser(data.user);
+      } catch (error) {
+        localStorage.removeItem("token");
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  // Register
+  const register = async ({ name, email, password }) => {
+    const { data } = await api.post("/auth/register", {
       name,
       email,
-      username: email.split("@")[0],
-    };
+      password,
+    });
 
-    setUser(newUser);
+    localStorage.setItem("token", data.token);
+    setUser(data.user);
+
     toast.success("Account created successfully!");
+
+    return data.user;
   };
 
-  const login = ({ email }) => {
-    const loggedInUser = {
-      name: email.split("@")[0],
+  // Login
+  const login = async ({ email, password }) => {
+    const { data } = await api.post("/auth/login", {
       email,
-      username: email.split("@")[0],
-    };
+      password,
+    });
 
-    setUser(loggedInUser);
+    localStorage.setItem("token", data.token);
+    setUser(data.user);
+
     toast.success("Welcome back!");
+
+    return data.user;
   };
 
+  // Logout
   const logout = () => {
+    localStorage.removeItem("token");
     setUser(null);
+
     toast.success("Logged out successfully!");
   };
 
   const value = {
     user,
+    loading,
     isAuthenticated: Boolean(user),
     register,
     login,
