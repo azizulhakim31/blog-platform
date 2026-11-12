@@ -25,26 +25,40 @@ const Register = () => {
         });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const { name, email, password, confirmPassword } = formData;
 
         if (!name.trim() || !email.trim() || !password || !confirmPassword) {
-            return toast.error("Please fill in all fields");
-        }
-
-        if (password.length < 8) {
-            return toast.error("Password must be at least 8 characters");
+            toast.error("Please fill in all fields");
+            return;
         }
 
         if (password !== confirmPassword) {
-            return toast.error("Passwords do not match");
+            toast.error("Passwords do not match");
+            return;
         }
 
-        register({ name: name.trim(), email: email.trim(), password });
-        navigate("/dashboard");
-    }
+        if (password.length < 8) {
+            toast.error("Password must be at least 8 characters");
+            return;
+        }
+
+        try {
+            await register({
+                name: name.trim(),
+                email: email.trim(),
+                password,
+            });
+
+            navigate("/dashboard");
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message ||
+                "Registration failed. Please try again."
+            );
+        }
+    };
 
     return (
         <AuthLayout
