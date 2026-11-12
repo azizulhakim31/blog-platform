@@ -2,8 +2,16 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const ProtectedRoute = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, loading } = useAuth();
     const location = useLocation();
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="loading loading-spinner loading-lg"></span>
+            </div>
+        );
+    };
 
     if (!isAuthenticated) {
         return (
@@ -15,7 +23,7 @@ const ProtectedRoute = () => {
         );
     };
 
-    return <Outlet />
+    return <Outlet />;
 };
 
 export default ProtectedRoute;
