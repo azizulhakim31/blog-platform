@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FiBookOpen, FiPenTool, FiUser, FiBookmark } from "react-icons/fi";
+import { FiBookOpen, FiMail, FiPenTool, FiUser, FiBookmark } from "react-icons/fi";
 
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/common/Navbar";
@@ -13,21 +13,44 @@ const Dashboard = () => {
 
             <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
                 <div className="rounded-3xl bg-base-100 p-6 shadow-sm sm:p-10">
-                    <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                        <div className="grid size-16 place-items-center rounded-2xl bg-primary/10 text-primary">
-                            <FiUser size={30} />
-                        </div>
+                    <div className="relative overflow-hidden rounded-2xl border border-primary/10 bg-linear-to-br from-primary/10 via-base-100 to-base-100 p-6 sm:p-8">
+                        <div className="pointer-events-none absolute -right-10 -top-16 size-48 rounded-full bg-primary/10 blur-3xl" />
 
-                        <div>
-                            <p className="text-sm font-medium text-primary">
-                                Your personal workspace
-                            </p>
-                            <h1 className="mt-1 text-3xl font-extrabold">
-                                Welcome, {user?.name}!
-                            </h1>
-                            <p className="mt-1 text-base-content/65">
-                                {user?.email}
-                            </p>
+                        <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center">
+                            <div className="avatar">
+                                <div className="size-20 rounded-full bg-primary text-primary-content ring-4 ring-base-100 ring-offset-2 ring-offset-primary/10">
+                                    {user?.avatar ? (
+                                        <img src={user.avatar} alt={`${user.name}'s profile`} />
+                                    ) : (
+                                        <span className="grid h-full place-items-center text-3xl font-bold">
+                                            {user?.name?.charAt(0).toUpperCase() || <FiUser />}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="min-w-0">
+                                <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                                    Your personal workspace
+                                </p>
+                                <h2 className="mt-1 text-2xl font-bold sm:text-3xl">
+                                    Welcome, {user?.name}!
+                                </h2>
+                                <p className="mt-1 font-medium text-base-content/60">
+                                    @{user?.username}
+                                </p>
+                                {user?.email && (
+                                    <p className="mt-3 flex items-center gap-2 text-sm text-base-content/65">
+                                        <FiMail aria-hidden="true" />
+                                        {user.email}
+                                    </p>
+                                )}
+                                {user?.bio && (
+                                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-base-content/75">
+                                        {user.bio}
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     </div>
 
