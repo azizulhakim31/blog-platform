@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -6,6 +6,7 @@ import AuthLayout from "../components/layout/AuthLayout";
 import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
 
 const Login = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -13,15 +14,24 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        if (!email.trim() || !password) {
-            return toast.error("Please enter your email and password.");
+        try {
+            await login({
+                email,
+                password,
+            });
+
+            const redirectPath = location.state?.from?.pathname || "/dashboard";
+
+            navigate(redirectPath, { replace: true });
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message ||
+                "Login failed. Please try again."
+            );
         }
-
-        login({ email: email.trim() });
-        navigate("/dashboard")
     };
 
     return (
