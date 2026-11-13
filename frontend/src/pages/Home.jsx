@@ -1,5 +1,5 @@
 import { FiArrowDown, FiSearch, FiTrendingUp } from "react-icons/fi";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
@@ -7,31 +7,74 @@ import FeaturedPost from "../components/blog/FeaturedPost";
 import CategoryFilter from "../components/blog/CategoryFilter";
 import BlogCard from "../components/blog/BlogCard";
 
-import { blogs, categories } from "../data/blogs";
+import { categories } from "../data/blogs";
 import Newsletter from "../components/common/Newsletter";
+import { getBlogs } from "../services/blogService";
+import formatBlog from "../utils/formatBlog";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [blogs, setBlogs] = useState([]);
+  const [totalBlogs, setTotalBlogs] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
 
-  const featuredBlog = blogs.find((blog) => blog.featured)
+  useEffect(() => {
+    let isCurrentRequest = true;
 
-  const filteredBlogs = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-    return blogs.filter((blog) => {
-      const matchesCategory =
-        activeCategory === "All" || blog.category === activeCategory;
+        const params = {
+          page: 1,
+          limit: 20,
+        };
 
-      const matchesSearch =
-        !query ||
-        [blog.title, blog.excerpt, blog.author, blog.category].some(
-          (value) => value.toLowerCase().includes(query)
-        );
+        if (searchQuery.trim()) {
+          params.search = searchQuery.trim();
+        }
 
-      return matchesCategory && matchesSearch && !blog.featured;
-    });
-  }, [activeCategory, searchQuery]);
+        if (activeCategory !== "All") {
+          params.category = activeCategory;
+        }
+
+        const data = await getBlogs(params);
+
+        if (isCurrentRequest) {
+          const fetchedBlogs = (data.blogs || []).map(formatBlog);
+          setBlogs(fetchedBlogs);
+          setTotalBlogs(data.totalBlogs ?? fetchedBlogs.length);
+        }
+      } catch (err) {
+        if (isCurrentRequest) {
+          setError(
+            err.response?.data?.message ||
+            "Unable to load blogs. Please try again."
+          );
+          setBlogs([]);
+          setTotalBlogs(0);
+        }
+      } finally {
+        if (isCurrentRequest) {
+          setLoading(false);
+        }
+      }
+    };
+
+    const timer = setTimeout(fetchBlogs, 400);
+
+    return () => {
+      isCurrentRequest = false;
+      clearTimeout(timer);
+    };
+  }, [searchQuery, activeCategory, retryCount]);
+
+  const featuredBlog = blogs[0];
+  const latestBlogs = blogs.slice(1);
 
   return (
     <div id="home" className="min-h-screen bg-base-100 text-base-content">
@@ -110,11 +153,11 @@ const Home = () => {
         </section>
 
         {/* Featured article */}
-        {featuredBlog && (
-          <section
-            id="featured"
-            className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20"
-          >
+        <section
+          id="featured"
+          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20"
+        >
+          {!loading && !error && featuredBlog && (
             <div className="mb-7 flex items-end justify-between gap-4">
               <div>
                 <p className="text-sm font-bold uppercase tracking-widest text-primary">
@@ -125,10 +168,12 @@ const Home = () => {
                 </h2>
               </div>
             </div>
+          )}
 
+          {!loading && !error && featuredBlog && (
             <FeaturedPost blog={featuredBlog} />
-          </section>
-        )}
+          )}
+        </section>
 
         {/* Latest articles */}
         <section
@@ -150,8 +195,7 @@ const Home = () => {
               </div>
 
               <span className="badge badge-primary badge-outline">
-                {filteredBlogs.length}{" "}
-                {filteredBlogs.length === 1 ? "article" : "articles"}
+                {totalBlogs} {totalBlogs === 1 ? "article" : "articles"}
               </span>
             </div>
 
@@ -163,13 +207,34 @@ const Home = () => {
               />
             </div>
 
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredBlogs.map((blog) => (
-                <BlogCard key={blog.id} blog={blog} />
-              ))}
-            </div>
+            {loading && (
+              <div className="flex justify-center py-16">
+                <span className="loading loading-spinner loading-lg text-primary" />
+              </div>
+            )}
 
-            {filteredBlogs.length === 0 && (
+            {!loading && error && (
+              <div className="mt-8 rounded-2xl border border-error/20 bg-error/10 px-6 py-12 text-center">
+                <p className="text-error">{error}</p>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm mt-5"
+                  onClick={() => setRetryCount((count) => count + 1)}
+                >
+                  Try again
+                </button>
+              </div>
+            )}
+
+            {!loading && !error && blogs.length > 0 && latestBlogs.length > 0 && (
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {latestBlogs.map((blog) => (
+                  <BlogCard key={blog.id} blog={blog} />
+                ))}
+              </div>
+            )}
+
+            {!loading && !error && blogs.length === 0 && (
               <div className="mt-8 rounded-2xl border border-dashed border-base-300 bg-base-100 px-6 py-16 text-center">
                 <FiSearch className="mx-auto text-3xl text-base-content/40" />
                 <h3 className="mt-4 text-xl font-bold">
