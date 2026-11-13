@@ -3,6 +3,7 @@ import { FiBookOpen, FiMail, FiPenTool, FiUser, FiBookmark } from "react-icons/f
 
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/common/Navbar";
+import Footer from "../components/common/Footer";
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -102,6 +103,8 @@ const Dashboard = () => {
                     </div>
                 </div>
             </main>
+
+            <Footer />
         </div>
     );
 };

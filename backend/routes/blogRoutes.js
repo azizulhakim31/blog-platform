@@ -4,14 +4,14 @@ const { createBlog, getBlogs, getMyBlogs, getBlogBySlug, updateBlog, deleteBlog 
 
 const { protect } = require("../middleware/authMiddleware");
 
-const router = express.Router;
+const router = express.Router();
 
 router.get("/", getBlogs);
 router.get("/my-blogs", protect, getMyBlogs);
 router.get("/:slug", getBlogBySlug);
 
 router.post("/", protect, createBlog);
-router.post("/:id", protect, updateBlog);
-router.post("/:id", protect, deleteBlog);
+router.put("/:id", protect, updateBlog);
+router.delete("/:id", protect, deleteBlog);
 
 module.exports = router;
