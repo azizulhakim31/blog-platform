@@ -9,6 +9,9 @@ import BlogDetails from "./pages/BlogDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import WriteBlog from "./pages/WriteBlog";
+import EditBlog from "./pages/EditBlog";
+import MyBlogs from "./pages/MyBlogs";
 
 const App = () => {
   return (
@@ -26,6 +29,9 @@ const App = () => {
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/write" element={<WriteBlog />} />
+            <Route path="/edit/:id" element={<EditBlog />} />
+            <Route path="/my-blogs" element={<MyBlogs />} />
           </Route>
         </Routes>
       </BrowserRouter>

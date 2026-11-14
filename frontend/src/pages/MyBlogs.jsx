@@ -130,7 +130,7 @@ const MyBlogs = () => {
 
                                 <div className="flex flex-1 flex-col justify-between gap-4">
                                     <div>
-                                        <div className="mb-3 flex flex-wrap items-cener gap-2">
+                                        <div className="mb-3 flex flex-wrap items-center gap-2">
                                             <span className="badge badge-outline">
                                                 {blog.category}
                                             </span>
@@ -155,7 +155,7 @@ const MyBlogs = () => {
 
                                     <div className="flex flex-wrap gap-2">
                                         <Link
-                                            to={`/blogs/${blog.id}`}
+                                            to={`/edit/${blog.id}`}
                                             className="btn btn-sm btn-outline"
                                         >
                                             <FiEdit2 /> Edit
