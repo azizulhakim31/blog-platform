@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FiBookOpen, FiMail, FiPenTool, FiUser, FiBookmark } from "react-icons/fi";
+import { FiBookOpen, FiEdit2, FiMail, FiPenTool, FiUser, FiBookmark } from "react-icons/fi";
 
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/common/Navbar";
@@ -21,7 +21,10 @@ const Dashboard = () => {
                             <div className="avatar">
                                 <div className="size-20 rounded-full bg-primary text-primary-content ring-4 ring-base-100 ring-offset-2 ring-offset-primary/10">
                                     {user?.avatar ? (
-                                        <img src={user.avatar} alt={`${user.name}'s profile`} />
+                                        <img
+                                            src={user.avatar}
+                                            alt={`${user.name}'s profile`}
+                                        />
                                     ) : (
                                         <span className="grid h-full place-items-center text-3xl font-bold">
                                             {user?.name?.charAt(0).toUpperCase() || <FiUser />}
@@ -59,12 +62,17 @@ const Dashboard = () => {
                         <div className="card border border-base-300 bg-base-100">
                             <div className="card-body">
                                 <FiPenTool className="text-2xl text-primary" />
-                                <h2 className="card-title mt-3">Write an article</h2>
+                                <h2 className="card-title mt-3">
+                                    Write an article
+                                </h2>
                                 <p className="text-sm text-base-content/65">
                                     Share your ideas and experiences.
                                 </p>
                                 <div className="card-actions mt-4">
-                                    <Link to="/write" className="btn btn-primary btn-sm">
+                                    <Link
+                                        to="/write"
+                                        className="btn btn-primary btn-sm"
+                                    >
                                         Start writing
                                     </Link>
                                 </div>
@@ -74,12 +82,17 @@ const Dashboard = () => {
                         <div className="card border border-base-300 bg-base-100">
                             <div className="card-body">
                                 <FiBookmark className="text-2xl text-primary" />
-                                <h2 className="card-title mt-3">Bookmarks</h2>
+                                <h2 className="card-title mt-3">
+                                    Bookmarks
+                                </h2>
                                 <p className="text-sm text-base-content/65">
                                     Find the stories you want to read again.
                                 </p>
                                 <div className="card-actions mt-4">
-                                    <Link to="/bookmarks" className="btn btn-outline btn-sm">
+                                    <Link
+                                        to="/bookmarks"
+                                        className="btn btn-outline btn-sm"
+                                    >
                                         View bookmarks
                                     </Link>
                                 </div>
@@ -88,13 +101,38 @@ const Dashboard = () => {
 
                         <div className="card border border-base-300 bg-base-100">
                             <div className="card-body">
+                                <FiEdit2 className="text-2xl text-primary" />
+                                <h2 className="card-title mt-3">
+                                    Manage your posts
+                                </h2>
+                                <p className="text-sm text-base-content/65">
+                                    Edit, review, or delete your articles and drafts.
+                                </p>
+                                <div className="card-actions mt-4">
+                                    <Link
+                                        to="/my-blogs"
+                                        className="btn btn-outline btn-sm"
+                                    >
+                                        Manage posts
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card border border-base-300 bg-base-100">
+                            <div className="card-body">
                                 <FiBookOpen className="text-2xl text-primary" />
-                                <h2 className="card-title mt-3">Explore blogs</h2>
+                                <h2 className="card-title mt-3">
+                                    Explore blogs
+                                </h2>
                                 <p className="text-sm text-base-content/65">
                                     Discover articles from other writers.
                                 </p>
                                 <div className="card-actions mt-4">
-                                    <Link to="/" className="btn btn-outline btn-sm">
+                                    <Link
+                                        to="/"
+                                        className="btn btn-outline btn-sm"
+                                    >
                                         Explore
                                     </Link>
                                 </div>
