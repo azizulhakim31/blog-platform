@@ -13,7 +13,7 @@ export const getBlogBySlug = async (slug) => {
 
 // protected
 export const getMyBlogs = async () => {
-    const { data } = await api.get("/blogs/my-blog");
+    const { data } = await api.get("/blogs/my-blogs");
     return data;
 };
 
