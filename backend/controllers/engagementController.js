@@ -68,4 +68,48 @@ const getComments = async (req, res, next) => {
     }
 };
 
-module.exports={toggleLike, getComments}
+const addComment = async (req, res, next) => {
+    try {
+        const { content } = req.body;
+
+        if (!content || !content.trim()) {
+            res.status(400);
+            throw new Error("Comment cannot be empty");
+        }
+
+        if (content.trim().length > 1000) {
+            res.status(400);
+            throw new Error("Comment cannot exceed 1000 characters");
+        }
+
+        const blog = await Blog.findOne({
+            _id: req.params.id,
+            status: "published",
+        });
+
+        if (!blog) {
+            res.status(404);
+            throw new Error("Blog not found.");
+        }
+
+
+        const comment = await Comment.create({
+            blog: blog._id,
+            author: req.user._id,
+            content: content.trim(),
+        });
+
+        const populatedComment = await Comment.findById(comment._id)
+            .populate("author", "name username avatar");
+
+        res.status(201).json({
+            success: true,
+            message: "Comment added successfully",
+            comment: populatedComment,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { toggleLike, getComments }
