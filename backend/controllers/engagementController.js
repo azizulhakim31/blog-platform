@@ -112,4 +112,46 @@ const addComment = async (req, res, next) => {
     }
 };
 
-module.exports = { toggleLike, getComments }
+const updateComment = async (req, res, next) => {
+    try {
+        const { content } = req.body;
+
+        if (!content || !content.trim()) {
+            res.status(400);
+            throw new Error("Comment cannot be empty.");
+        }
+
+        if (content.trim().length > 1000) {
+            res.status(400);
+            throw new Error("Comment cannot exceed 1000 characters");
+        }
+
+        const comment = await Comment.findById(req.params.id);
+
+        if (!comment) {
+            res.status(404);
+            throw new Error("Comment not found.");
+        }
+
+        if (comment.author.toString() !== req.user._id.toString()) {
+            res.status(403);
+            throw new Error("You are not allowed to edit this comment.");
+        }
+
+        comment.content = content.trim();
+        await comment.save();
+
+        const updatedComment = await Comment.findByd(comment._id)
+            .populate("author", "name username avatar");
+
+        res.status(200).json({
+            success: true,
+            message: "Comment updated successfully.",
+            comment: updatedComment
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { toggleLike, getComments, addComment, updateComment };
