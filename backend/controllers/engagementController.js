@@ -154,4 +154,29 @@ const updateComment = async (req, res, next) => {
     }
 };
 
-module.exports = { toggleLike, getComments, addComment, updateComment };
+const deleteComment = async (res, req, next) => {
+    try {
+        const comment = await Comment.findById(req.params.id);
+
+        if (!comment) {
+            res.status(404);
+            throw new Error("Comment not found.");
+        }
+
+        if (comment.author.toString() !== req.user._id.toString()) {
+            res.status(403);
+            throw new Error("You are not allowed to delete this comment.");
+        }
+
+        await comment.deleteOne();
+
+        res.status(200).json({
+            success: true,
+            message: "Comment deleted successfully."
+        });
+    } catch (error) {
+        next(error)
+    }
+};
+
+module.exports = { toggleLike, getComments, addComment, updateComment, deleteComment };
