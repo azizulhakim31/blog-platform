@@ -31,3 +31,32 @@ export const deleteBlog = async (id) => {
     const { data } = await api.delete(`/blogs/${id}`);
     return data;
 };
+
+export const toggleBlogLike = async (blogId) => {
+    const { data } = await api.post(`/blogs/${blogId}/like`);
+    return data;
+};
+
+export const getBlogComment = async (blogId) => {
+    const { data } = await api.get(`/blogs/${blogId}/comments`);
+    return data;
+};
+
+export const addBlogComment = async (blogId, content) => {
+    const { data } = await api.post(`/blogs/${blogId}/comments`, {
+        content
+    });
+    return data;
+};
+
+export const updateBlogComment = async (commentId, content) => {
+    const { data } = await api.put(`/comments/${commentId}`, {
+        content
+    });
+    return data;
+};
+
+export const deleteBlogComment = async (commentId) => {
+    const { data } = await api.delete(`/comments/${commentId}`);
+    return data;
+};
