@@ -37,7 +37,7 @@ export const toggleBlogLike = async (blogId) => {
     return data;
 };
 
-export const getBlogComment = async (blogId) => {
+export const getBlogComments = async (blogId) => {
     const { data } = await api.get(`/blogs/${blogId}/comments`);
     return data;
 };
