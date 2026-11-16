@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { addBlogComment, getBlogComments, toggleBlogLike } from "../../services/blogService";
 import toast from "react-hot-toast";
+
+import { addBlogComment, deleteBlogComment, getBlogComments, toggleBlogLike, updateBlogComment } from "../../services/blogService";
 
 const BlogEngagement = ({ blogId, initialLikes = [] }) => {
     const { user, isAuthenticated } = useAuth();
@@ -94,6 +95,63 @@ const BlogEngagement = ({ blogId, initialLikes = [] }) => {
             setSubmitting(false);
         }
     };
+
+    const startEditing = (comment) => {
+        setEditingId(comment._id);
+        setEditingText(comment.content);
+    };
+
+    const handleUpdateComment = async (commentId) => {
+        if (!editingText.trim()) {
+            toast.error("Comment cannot be empty.");
+            return;
+        }
+
+        try {
+            const data = await updateBlogComment(
+                commentId,
+                editingText
+            );
+
+            setComments((previous) =>
+                previous.map((comment) =>
+                    comment._id === commentId ? data.comment : comment
+                )
+            );
+
+            setEditingId(null);
+            setEditingText("");
+
+            toast.success("Comment updated!");
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message || "Unable to update comment."
+            );
+        }
+    };
+
+    const handleDeleteComment = async (commentId) => {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this comment?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+            await deleteBlogComment(commentId);
+
+            setComments((previous) =>
+                previous.filter((comment) => comment._id !== commentId)
+            );
+
+            toast.success("Comment deleted!");
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message || "Unable to delete comment."
+            );
+        }
+    };
+
     return (
         <div>
 
