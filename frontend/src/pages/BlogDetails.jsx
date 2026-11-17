@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import BlogEngagement from "../components/blog/BlogEngagement";
 
 import { getBlogBySlug } from "../services/blogService";
 import formatBlog from "../utils/formatBlog";
@@ -201,6 +202,12 @@ const BlogDetails = () => {
                         </p>
                     )}
                 </div>
+
+                {/* Likes & Comments */}
+                <BlogEngagement
+                    blogId={blog.id}
+                    initialLikes={blog.likes || []}
+                />
             </main>
 
             <Footer />

@@ -141,7 +141,7 @@ const updateComment = async (req, res, next) => {
         comment.content = content.trim();
         await comment.save();
 
-        const updatedComment = await Comment.findByd(comment._id)
+        const updatedComment = await Comment.findById(comment._id)
             .populate("author", "name username avatar");
 
         res.status(200).json({
@@ -154,7 +154,7 @@ const updateComment = async (req, res, next) => {
     }
 };
 
-const deleteComment = async (res, req, next) => {
+const deleteComment = async (req, res, next) => {
     try {
         const comment = await Comment.findById(req.params.id);
 

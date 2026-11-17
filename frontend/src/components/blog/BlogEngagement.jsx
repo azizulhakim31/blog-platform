@@ -22,7 +22,7 @@ const BlogEngagement = ({ blogId, initialLikes = [] }) => {
     const [editingText, setEditingText] = useState("");
 
     useEffect(() => {
-        const userId = user?._id;
+        const userId = user?.id || user?._id;
 
         const hasLiked = initialLikes.some((like) => {
             const likeId = like?._id || like;
@@ -174,7 +174,7 @@ const BlogEngagement = ({ blogId, initialLikes = [] }) => {
                     {liked ? "Liked" : "Like"}
                 </button>
                 <span className="text-sm text-base-content/60">
-                    {likesCount}{likesCount === 1 ? "like" : "likes"}
+                    {likesCount} {likesCount === 1 ? "like" : "likes"}
                 </span>
             </div>
 
@@ -248,8 +248,9 @@ const BlogEngagement = ({ blogId, initialLikes = [] }) => {
                 ) : (
                     <div className="space-y-5">
                         {comments.map((comment) => {
+                            const authorId = comment.author?._id || comment.author;
                             const isOwner =
-                                user?._id?.toString() === comment.author?._id?.toString();
+                                (user?.id || user?._id)?.toString() === authorId?.toString();
 
                             return (
                                 <div
@@ -312,7 +313,7 @@ const BlogEngagement = ({ blogId, initialLikes = [] }) => {
                                                 maxLength={1000}
                                             />
 
-                                            <div>
+                                            <div className="flex gap-1 mt-1">
                                                 <button
                                                     onClick={() => handleUpdateComment(comment._id)}
                                                     className="btn btn-primary btn-xs"
