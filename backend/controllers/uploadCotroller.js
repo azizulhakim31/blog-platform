@@ -29,7 +29,6 @@ const uploadBlogCover = async (req, res, next) => {
         }
 
         const result = await uploadToCloudinary(req.file, "blog-covers");
-        const result = await uploadToCloudinary(req.file, "blog-covers");
 
         res.status(200).json({
             success: true,
