@@ -20,3 +20,23 @@ const uploadToCloudinary = (file, folder) => {
         stream.end(file.buffer);
     });
 };
+
+const uploadBlogCover = async (req, res, next) => {
+    try {
+        if (!req.file) {
+            res.status(400);
+            throw new Error("Please select an image");
+        }
+
+        const result = await uploadToCloudinary(req.file, "blog-covers");
+
+        res.status(200).json({
+            success: true,
+            message: "Blog cover uploaded successfully",
+            imageUrl: result.secure_url,
+            publicId: result.public_id
+        });
+    } catch (error) {
+        next(error);
+    }
+};
