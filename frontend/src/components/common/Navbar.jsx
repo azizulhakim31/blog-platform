@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { FiBookOpen, FiMenu, FiX, FiSearch, FiUser, FiLayout, FiLogOut, } from "react-icons/fi";
+import { FiBookOpen, FiMenu, FiX, FiSearch, FiLayout, FiLogOut } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import AvatarImage from "./AvatarImage";
 
 
 const Navbar = () => {
@@ -63,9 +64,17 @@ const Navbar = () => {
                 tabIndex={0}
                 className="btn btn-ghost gap-2"
               >
-                <div className="grid size-8 place-items-center rounded-full bg-primary text-primary-content">
-                  <FiUser />
-                </div>
+                {user?.avatar ? (
+                  <AvatarImage
+                    src={user.avatar}
+                    alt={user.name}
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white">
+                    {user?.name?.charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <span className="max-w-28 truncate">{user?.name}</span>
               </button>
 
@@ -114,48 +123,47 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {
-        menuOpen && (
-          <div className="border-t border-base-300 bg-base-100 p-3 lg:hidden">
-            <ul className="menu w-full">
-              {links.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} onClick={() => setMenuOpen(false)}>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+      {menuOpen && (
+        <div className="border-t border-base-300 bg-base-100 p-3 lg:hidden">
+          <ul className="menu w-full">
+            {links.map((link) => (
+              <li key={link.label}>
+                <a href={link.href} onClick={() => setMenuOpen(false)}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
 
-              {isAuthenticated ? (
-                <>
-                  <li>
-                    <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                      <FiLayout /> Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <button onClick={handleLogout}>
-                      <FiLogOut /> Logout
-                    </button>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <Link to="/login" onClick={() => setMenuOpen(false)}>
-                      Sign in
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/register" onClick={() => setMenuOpen(false)}>
-                      Get started
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
-        )
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                    <FiLayout /> Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout}>
+                    <FiLogOut /> Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login" onClick={() => setMenuOpen(false)}>
+                    Sign in
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/register" onClick={() => setMenuOpen(false)}>
+                    Get started
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+      )
       }
     </header >
   );

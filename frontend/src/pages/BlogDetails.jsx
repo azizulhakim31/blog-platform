@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import AvatarImage from "../components/common/AvatarImage";
 import BlogEngagement from "../components/blog/BlogEngagement";
 
 import { getBlogBySlug } from "../services/blogService";
@@ -119,7 +120,7 @@ const BlogDetails = () => {
                     <div className="flex flex-wrap items-center justify-between gap-4 border-y border-base-300 py-5">
                         <div className="flex items-center gap-3">
                             {blog.avatar ? (
-                                <img
+                                <AvatarImage
                                     src={blog.avatar}
                                     alt={blog.author}
                                     className="h-11 w-11 rounded-full object-cover"

@@ -1,12 +1,13 @@
 const cloudinary = require("../config/cloudinary");
 const User = require("../models/User");
 
-const uploadToCloudinary = (file, folder) => {
+const uploadToCloudinary = (file, folder, uploadOptions = {}) => {
     return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
             {
                 folder: `relato/${folder}`,
-                resource_type: "image"
+                resource_type: "image",
+                ...uploadOptions,
             },
             (error, result) => {
                 if (error) {
@@ -19,6 +20,29 @@ const uploadToCloudinary = (file, folder) => {
 
         stream.end(file.buffer);
     });
+};
+
+const getCloudinaryPublicId = (url) => {
+    const cloudName = cloudinary.config().cloud_name;
+    const uploadPath = `https://res.cloudinary.com/${cloudName}/image/upload/`;
+
+    if (!cloudName || !url?.startsWith(uploadPath)) {
+        return null;
+    }
+
+    const pathSegments = url.slice(uploadPath.length).split("/");
+    const versionIndex = pathSegments.findIndex((segment) => /^v\d+$/.test(segment));
+
+    if (versionIndex === -1) {
+        return null;
+    }
+
+    const publicId = pathSegments.slice(versionIndex + 1).join("/");
+    const normalizedPublicId = publicId.replace(/\.[^/.]+$/, "");
+
+    return normalizedPublicId.startsWith("relato/profile-avatars/")
+        ? normalizedPublicId
+        : null;
 };
 
 const uploadBlogCover = async (req, res, next) => {
@@ -48,7 +72,11 @@ const uploadAvatar = async (req, res, next) => {
             throw new Error("Please select an image");
         }
 
-        const result = await uploadToCloudinary(req.file, "profile-avatars");
+        const previousAvatar = req.user.avatar;
+        const result = await uploadToCloudinary(req.file, "profile-avatars", {
+            public_id: `avatar-${req.user._id}`,
+            overwrite: true,
+        });
 
         const user = await User.findByIdAndUpdate(
             req.user._id,
@@ -59,6 +87,21 @@ const uploadAvatar = async (req, res, next) => {
         if (!user) {
             res.status(404);
             throw new Error("User not found");
+        }
+
+        const previousPublicId = getCloudinaryPublicId(previousAvatar);
+        if (previousPublicId && previousPublicId !== result.public_id) {
+            try {
+                const deletion = await cloudinary.uploader.destroy(previousPublicId, {
+                    resource_type: "image",
+                });
+
+                if (deletion.result !== "ok" && deletion.result !== "not found") {
+                    console.warn("Unable to remove the previous avatar asset.");
+                }
+            } catch (error) {
+                console.warn("Unable to remove the previous avatar asset:", error.message);
+            }
         }
 
         res.status(200).json({

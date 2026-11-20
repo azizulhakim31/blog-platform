@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
+import AvatarImage from "../common/AvatarImage";
 
 import { addBlogComment, deleteBlogComment, getBlogComments, toggleBlogLike, updateBlogComment } from "../../services/blogService";
 import { FiEdit2, FiHeart, FiMessageCircle, FiTrash2 } from "react-icons/fi";
@@ -260,7 +261,7 @@ const BlogEngagement = ({ blogId, initialLikes = [] }) => {
                                     <div className="mb-3 flex items-start justify-between gap-3">
                                         <div className="flex items-center gap-3">
                                             {comment.author?.avatar ? (
-                                                <img
+                                                <AvatarImage
                                                     src={comment.author.avatar}
                                                     alt={comment.author.name}
                                                     className="h-10 w-10 rounded-full object-cover"

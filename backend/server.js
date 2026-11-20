@@ -1,6 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
+
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
@@ -9,8 +12,6 @@ const engagementRoutes = require("./routes/engagementRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-
-dotenv.config();
 
 const app = express();
 

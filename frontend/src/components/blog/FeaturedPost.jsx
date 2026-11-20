@@ -1,5 +1,6 @@
 import { FiArrowUpRight, FiClock } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import AvatarImage from "../common/AvatarImage";
 
 const FeaturedPost = ({ blog }) => {
     if (!blog) return null;
@@ -29,7 +30,7 @@ const FeaturedPost = ({ blog }) => {
                 </p>
 
                 <div className="mt-6 flex items-center gap-3">
-                    <img
+                    <AvatarImage
                         src={blog.avatar}
                         alt={blog.author}
                         className="size-11 rounded-full object-cover"

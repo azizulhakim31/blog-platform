@@ -1,5 +1,6 @@
 import { FiArrowUpRight, FiClock } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import AvatarImage from "../common/AvatarImage";
 
 const BlogCard = ({ blog }) => {
     return (
@@ -40,8 +41,9 @@ const BlogCard = ({ blog }) => {
 
                 <div className="mt-6 flex items-center justify-between border-t border-base-300 pt-4">
                     <div className="flex min-w-0 items-center gap-2">
-                        <img
+                        <AvatarImage
                             src={blog.avatar}
+                            alt={blog.author}
                             loading="lazy"
                             className="size-9 rounded-full object-cover"
                         />
