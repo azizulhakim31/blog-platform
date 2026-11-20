@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const { data } = await api.get("/auth/me");
         setUser(data.user);
-      } catch (error) {
+      } catch {
         localStorage.removeItem("token");
         setUser(null);
       } finally {
@@ -71,6 +71,10 @@ export const AuthProvider = ({ children }) => {
     toast.success("Logged out successfully!");
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
   const value = {
     user,
     loading,
@@ -78,6 +82,7 @@ export const AuthProvider = ({ children }) => {
     register,
     login,
     logout,
+    updateUser,
   };
 
   return (
