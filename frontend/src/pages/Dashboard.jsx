@@ -1,12 +1,52 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 import { FiBookOpen, FiEdit2, FiMail, FiPenTool, FiUser, FiBookmark } from "react-icons/fi";
 
-import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import { uploadAvatar } from "../services/uploadService";
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+    const handleAvatarUpload = async (e) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            toast.error("Please select an image file.");
+            e.target.value = "";
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error("Image size must be 5 MB or less.");
+            e.target.value = "";
+            return;
+        }
+
+        try {
+            setUploadingAvatar(true);
+
+            const data = await uploadAvatar(file);
+
+            updateUser(data.user);
+
+            toast.success("Profile image updated!");
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message ||
+                "Unable to update profile image."
+            );
+        } finally {
+            setUploadingAvatar(false);
+            e.target.value = "";
+        }
+    };
 
     return (
         <div className="min-h-screen bg-base-200">
@@ -55,6 +95,44 @@ const Dashboard = () => {
                                     </p>
                                 )}
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="mb-10 flex flex-wrap items-center gap-5 rounded-2xl border border-base-300 p-5">
+                        {user?.avatar ? (
+                            <img
+                                src={user.avatar}
+                                alt={user.name}
+                                className="h-20 w-20 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-3xl font-bold text-primary">
+                                {user?.name?.charAt(0).toUpperCase()}
+                            </div>
+                        )}
+
+                        <div>
+                            <h2 className="font-bold">Profile picture</h2>
+
+                            <p className="mb-3 text-sm text-base-content/60">
+                                Upload a photo for your Relato profile.
+                            </p>
+
+                            <label className="btn btn-outline btn-sm">
+                                {uploadingAvatar ? (
+                                    <span className="loading loading-spinner loading-sm"></span>
+                                ) : (
+                                    "Change picture"
+                                )}
+
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleAvatarUpload}
+                                    disabled={uploadingAvatar}
+                                />
+                            </label>
                         </div>
                     </div>
 
