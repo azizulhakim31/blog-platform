@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const engagementRoutes = require("./routes/engagementRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api", engagementRoutes);
 app.use("/api/uploads", uploadRoutes);
+app.use("/api/users", profileRoutes);
 
 app.get("/", (req, res) => {
     res.status(200).json({
