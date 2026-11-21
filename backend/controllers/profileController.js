@@ -76,4 +76,33 @@ const updateMyProfile = async (req, res, next) => {
     }
 };
 
-module.exports = { getMyProfile, updateMyProfile };
+const getPublicProfile = async (res, req, next) => {
+    try {
+        const user = await User.findOne({
+            username: req.params.username.toLowerCase()
+        }).select("name username avatar bio createdAt");
+
+        if (!user) {
+            res.status(404);
+            throw new Error("Author not found");
+        }
+
+        const blogs = await Blog.find({
+            author: user._id,
+            status: "published"
+        })
+            .populate("author", "name username avatar")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            user,
+            blogs,
+            totalBlogs: blogs.length
+        });
+    } catch (error) {
+        next(error)
+    }
+};
+
+module.exports = { getMyProfile, updateMyProfile, getPublicProfile };
