@@ -105,7 +105,7 @@ const MyProfile = () => {
                         My profile
                     </h1>
                     <p className="mt-2 text-base-content/60">
-                        Manage your public identity on BlogSpace.
+                        Manage your public identity on Relato.
                     </p>
                 </div>
 
@@ -248,6 +248,15 @@ const MyProfile = () => {
                             Save changes
                         </button>
                     </form>
+
+                    <div className="divider"></div>
+
+                    <Link
+                        to={`/authors/${user?.username}`}
+                        className="link link-primary text-sm"
+                    >
+                        View my public author profile
+                    </Link>
 
                 </div>
 

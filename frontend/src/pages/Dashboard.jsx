@@ -140,7 +140,7 @@ const Dashboard = () => {
                             </p>
                         </div>
 
-                        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                             <div className="card h-full border border-base-300 bg-base-100 transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md">
                                 <div className="card-body p-5">
                                     <span className="grid size-11 place-items-center rounded-xl bg-primary/10 text-primary">
@@ -228,6 +228,29 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <Link
+                                to="/profile"
+                                className="card h-full border border-base-300 bg-base-100 transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+                            >
+                                <div className="card-body p-5">
+                                    <FiUser className="text-3xl text-primary" />
+
+                                    <h2 className="card-title mt-3 text-lg">
+                                        My profile
+                                    </h2>
+
+                                    <p className="text-sm leading-6 text-base-content/65">
+                                        Update your name, bio, and profile picture.
+                                    </p>
+
+                                    <div className="card-actions mt-auto pt-3">
+                                        <span className="btn btn-outline btn-sm">
+                                            Edit profile
+                                        </span>
+                                    </div>
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </section>

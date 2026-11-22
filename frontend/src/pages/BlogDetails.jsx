@@ -191,17 +191,35 @@ const BlogDetails = () => {
 
                 {/* Author Information */}
                 <div className="rounded-2xl bg-base-200 p-6">
-                    <h3 className="mb-2 text-lg font-bold">
+                    <h3 className="mb-3 text-lg font-bold">
                         About the author
                     </h3>
 
-                    <p className="font-semibold">{blog.author}</p>
+                    <Link>
+                        {blog.avatar ? (
+                            <img
+                                src={blog.avatar}
+                                alt={blog.author}
+                                className="h-12 w-12 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                                {blog.author.charAt(0).toUpperCase()}
+                            </div>
+                        )}
 
-                    {blog.authorUsername && (
-                        <p className="text-sm text-base-content/60">
-                            @{blog.authorUsername}
-                        </p>
-                    )}
+                        <div>
+                            <p className="font-semibold">
+                                {blog.author}
+                            </p>
+
+                            {blog.authorUsername && (
+                                <p className="text-sm text-base-content/60">
+                                    @{blog.authorUsername}
+                                </p>
+                            )}
+                        </div>
+                    </Link>
                 </div>
 
                 {/* Likes & Comments */}

@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import WriteBlog from "./pages/WriteBlog";
 import EditBlog from "./pages/EditBlog";
 import MyBlogs from "./pages/MyBlogs";
+import AuthorProfile from "./pages/AuthorProfile";
+import MyProfile from "./pages/MyProfile";
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/blogs/:slug" element={<BlogDetails />} />
+          <Route path="/authors/:username" element={<AuthorProfile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
@@ -32,6 +35,7 @@ const App = () => {
             <Route path="/write" element={<WriteBlog />} />
             <Route path="/edit/:id" element={<EditBlog />} />
             <Route path="/my-blogs" element={<MyBlogs />} />
+            <Route path="/profile" element={<MyProfile />} />
           </Route>
         </Routes>
       </BrowserRouter>

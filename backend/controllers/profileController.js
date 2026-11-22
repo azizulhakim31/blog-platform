@@ -76,7 +76,7 @@ const updateMyProfile = async (req, res, next) => {
     }
 };
 
-const getPublicProfile = async (res, req, next) => {
+const getPublicProfile = async (req, res, next) => {
     try {
         const user = await User.findOne({
             username: req.params.username.toLowerCase()
