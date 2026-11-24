@@ -195,7 +195,10 @@ const BlogDetails = () => {
                         About the author
                     </h3>
 
-                    <Link>
+                    <Link
+                        to={`/authors/${encodeURIComponent(blog.authorUsername)}`}
+                        className="inline-flex flex-col items-start"
+                    >
                         {blog.avatar ? (
                             <img
                                 src={blog.avatar}
