@@ -81,5 +81,28 @@ const getBookmarks = async (req, res, next) => {
     }
 };
 
+const getBookmarkStatus = async (req, res, next) => {
+    try {
+        const { blogId } = req.params;
 
-module.exports = { toggleBookmark, getBookmarks };
+        const user = await User.findById(req.user._id).select("bookmarks");
+
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        const bookmarked = (user.bookmarks || []).some(
+            (id) => id.toString() === blogId
+        );
+
+        res.status(200).json({
+            success: true,
+            bookmarked
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { toggleBookmark, getBookmarks, getBookmarkStatus };
