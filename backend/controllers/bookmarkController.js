@@ -53,4 +53,33 @@ const toggleBookmark = async (req, res, next) => {
 };
 
 
-module.exports = { toggleBookmark };
+const getBookmarks = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user._id).populate({
+            path: "bookmarks",
+            match: { status: "published" },
+            populate: {
+                path: "author",
+                select: "name, username, avatar"
+            }
+        });
+
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        const blogs = (user.bookmarks || []).filter(Boolean);
+
+        res.status(200).json({
+            success: true,
+            count: blogs.length,
+            blogs
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+module.exports = { toggleBookmark, getBookmarks };
