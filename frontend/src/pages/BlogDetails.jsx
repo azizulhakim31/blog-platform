@@ -7,6 +7,7 @@ import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
 import AvatarImage from "../components/common/AvatarImage";
 import BlogEngagement from "../components/blog/BlogEngagement";
+import BookmarkButton from "../components/blog/BookmarkButton";
 
 import { getBlogBySlug } from "../services/blogService";
 import formatBlog from "../utils/formatBlog";
@@ -139,13 +140,19 @@ const BlogDetails = () => {
                             </div>
                         </div>
 
-                        <button
-                            onClick={handleShare}
-                            className="btn btn-outline btn-sm"
-                        >
-                            <FiShare2 />
-                            Share
-                        </button>
+                        <div className="flex flex-wrap items-center gap-3">
+
+                            <BookmarkButton blogId={blog.id} />
+
+                            <button
+                                onClick={handleShare}
+                                className="btn btn-outline btn-sm"
+                            >
+                                <FiShare2 />
+                                Share
+                            </button>
+
+                        </div>
                     </div>
                 </header>
 
